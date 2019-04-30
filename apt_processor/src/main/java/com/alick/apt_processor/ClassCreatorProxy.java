@@ -37,42 +37,6 @@ public class ClassCreatorProxy {
         mVariableElementMap.put(id, element);
     }
 
-    /**
-     * 创建Java代码
-     *
-     * @return
-     */
-    public String generateJavaCode() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("package ").append(mPackageName).append(";\n\n");
-        builder.append("import com.alick.apt_library.*;\n");
-        builder.append('\n');
-        builder.append("public class ").append(mBindingClassName);
-        builder.append(" {\n");
-
-        generateMethods(builder);
-        builder.append('\n');
-        builder.append("}\n");
-        return builder.toString();
-    }
-
-    /**
-     * 加入Method
-     *
-     * @param builder
-     */
-    private void generateMethods(StringBuilder builder) {
-        builder.append("public void bind(" + mTypeElement.getQualifiedName() + " host ) {\n");
-        for (int id : mVariableElementMap.keySet()) {
-            VariableElement element = mVariableElementMap.get(id);
-            String name = element.getSimpleName().toString();
-            String type = element.asType().toString();
-            builder.append("host." + name).append(" = ");
-            builder.append("(" + type + ")(((android.app.Activity)host).findViewById( " + id + "));\n");
-        }
-        builder.append("  }\n");
-    }
-
     public String getProxyClassFullName() {
         return mPackageName + "." + mBindingClassName;
     }
@@ -89,10 +53,10 @@ public class ClassCreatorProxy {
      *
      * @return
      */
-    public TypeSpec generateJavaCode2() {
+    public TypeSpec generateJavaCode() {
         TypeSpec bindingClass = TypeSpec.classBuilder(mBindingClassName)
                 .addModifiers(Modifier.PUBLIC)
-                .addMethod(generateMethods2())
+                .addMethod(generateMethods())
                 .build();
         return bindingClass;
 
@@ -102,7 +66,7 @@ public class ClassCreatorProxy {
      * 加入Method
      * javapoet
      */
-    private MethodSpec generateMethods2() {
+    private MethodSpec generateMethods() {
         ClassName host = ClassName.bestGuess(mTypeElement.getQualifiedName().toString());
         MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("bind")
                 .addModifiers(Modifier.PUBLIC)
@@ -113,8 +77,17 @@ public class ClassCreatorProxy {
             VariableElement element = mVariableElementMap.get(id);
             String name = element.getSimpleName().toString();
             String type = element.asType().toString();
-            methodBuilder.addCode("host." + name + " = " + "(" + type + ")(((android.app.Activity)host).findViewById( " + id + "));");
+            methodBuilder.addCode("host." + name + " = " + "(" + type + ")(((android.app.Activity)host).findViewById( " + id + "));\n");
         }
+
+        /**
+         * 生成的代码如下
+         * public void bind(com.alick.aptlearn.MainActivity host){
+         *     host.btn_test = (android.widget.Button)(((android.app.Activity)host).findViewById(2131165218);
+         * }
+         */
+
+
         return methodBuilder.build();
     }
 
