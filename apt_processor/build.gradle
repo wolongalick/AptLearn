@@ -3,10 +3,14 @@ apply plugin: 'java-library'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation project(':apt_annotation')
     implementation 'com.google.auto.service:auto-service:1.0-rc3'
     implementation 'com.squareup:javapoet:1.10.0'
-    implementation project(':apt_annotation')
 }
 
 sourceCompatibility = "7"
 targetCompatibility = "7"
+
+tasks.withType(JavaCompile){
+    options.encoding = "UTF-8"
+}
