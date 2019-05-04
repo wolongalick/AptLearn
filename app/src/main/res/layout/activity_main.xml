@@ -14,4 +14,11 @@
         android:text="测试"
         />
 
+    <TextView
+        android:id="@+id/tv_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测试哈哈哈哈哈"
+        />
+
 </LinearLayout>

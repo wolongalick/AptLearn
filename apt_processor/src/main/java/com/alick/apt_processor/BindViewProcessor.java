@@ -73,7 +73,7 @@ public class BindViewProcessor extends AbstractProcessor {
         //通过javapoet生成
         for (String key : mProxyMap.keySet()) {
             ClassCreatorProxy proxyInfo = mProxyMap.get(key);
-            JavaFile javaFile = JavaFile.builder(proxyInfo.getPackageName(), proxyInfo.generateJavaCode2()).build();
+            JavaFile javaFile = JavaFile.builder(proxyInfo.getPackageName(), proxyInfo.generateJavaCode()).build();
             try {
                 //　生成文件
                 javaFile.writeTo(processingEnv.getFiler());

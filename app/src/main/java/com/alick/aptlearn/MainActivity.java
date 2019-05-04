@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alick.apt_annotation.BindView;
@@ -13,6 +14,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.btn_test)
     Button btn_test;
+
+    @BindView(R.id.tv_test)
+    TextView tv_test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,"哈哈",Toast.LENGTH_SHORT).show();
             }
         });
+
+        tv_test.setText("重新赋值");
 
     }
 

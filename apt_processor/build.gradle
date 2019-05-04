@@ -11,6 +11,7 @@ dependencies {
 sourceCompatibility = "7"
 targetCompatibility = "7"
 
+//指定编译的编码
 tasks.withType(JavaCompile){
     options.encoding = "UTF-8"
 }
